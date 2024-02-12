@@ -19,8 +19,8 @@ you can see example in the `.env` file
 `PIXELS_FILE` - path to the file with the old canvas  
 
 ## Positions
-**1** - top left
-**2** - top right
-**3** - bottom left
-**4** - bottom right
-**5** - center
+**1** - top left  
+**2** - top right  
+**3** - bottom left  
+**4** - bottom right  
+**5** - center  
