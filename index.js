@@ -1,6 +1,6 @@
 const before = Date.now();
 
-const { ObjectId } = require('mongodb');
+const { ObjectId } = require('bson');
 const { writeFileSync } = require('fs');
 const { config, formatDiff } = require('./config');
 
