@@ -1,6 +1,5 @@
 const before = Date.now();
 
-const { ObjectId } = require('bson');
 const { writeFileSync } = require('fs');
 const { config, formatDiff } = require('./config');
 
@@ -26,7 +25,6 @@ const { config, formatDiff } = require('./config');
                     const pixel = pixels.find(pix => (pix.x === (i % config.NEW_CANVAS_X - config.DIFF_X)) && (pix.y === Math.floor(i / config.NEW_CANVAS_X - config.DIFF_Y)));
 
                     return {
-                        _id: { $oid: new ObjectId().toString() }, 
                         x: i % config.NEW_CANVAS_X, 
                         y: Math.floor(i / config.NEW_CANVAS_X), 
                         color: pixel?.color || config.COLOR, 

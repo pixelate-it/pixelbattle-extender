@@ -2,11 +2,6 @@
 # yarn lockfile v1
 
 
-bson@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/bson/-/bson-6.3.0.tgz#d47acba525ba7d7eb0e816c10538bce26a337fe0"
-  integrity sha512-balJfqwwTBddxfnidJZagCBPP/f48zj9Sdp3OJswREOgsJzHiQSaOIAtApSgDQFYgHqAvFkp53AFSqjMDZoTFw==
-
 dotenv@^16.4.3:
   version "16.4.3"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.4.3.tgz#481235ec516c4e47d2612a478482ee36607f70c1"

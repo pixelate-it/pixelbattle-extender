@@ -7,9 +7,6 @@
   },
   "license": "GPL-3.0-only",
   "dependencies": {
-    "bson": "^6.3.0"
-  },
-  "devDependencies": {
     "dotenv": "^16.4.3"
   }
 }
