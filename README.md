@@ -8,7 +8,7 @@ The script will give you a `canvas_*.json` file which needs to be imported using
 3. Save the changes, and start script with `npm run extend` command
 
 ## Recommendations
-**This utility is under development**, we recommend specifying in .env the first 4 values ​​only divisible by 2
+**This utility is under development**, we recommend specifying in `.env` the first 4 values ​​only divisible by 2
 
 ## `.env` form
 You can see example in the `.env` file
