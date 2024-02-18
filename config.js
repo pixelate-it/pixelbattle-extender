@@ -26,7 +26,9 @@ let cfg = {
     DIFF_X: [0, 0],
     DIFF_Y: [0, 0],
     POSITION: Number(process.env.POSITION ?? 5),
-    COLOR: process.env.COLOR,
+    COLOR: process.env.CLR === 'RANDOM' 
+        ? null 
+        : (process.env.CLR ?? null),
     PIXELS_FILE: process.env.PIXELS_FILE
 }
 

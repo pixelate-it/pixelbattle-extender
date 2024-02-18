@@ -18,7 +18,7 @@ You can see example in the `.env` file
 `OLD_CANVAS_X` - old size **x** coordinates  
 `OLD_CANVAS_Y` - old size **y** coordinates  
 `POSITION` - position of the old canvas on the new one (see below)  
-`COLOR` - fill color for new areas  
+`CLR` - fill color for new areas (you can specify RANDOM for a random color)  
 `PIXELS_FILE` - path to the file with the old canvas  
 
 ## Positions
