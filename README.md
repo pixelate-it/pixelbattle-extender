@@ -8,7 +8,7 @@ The script will give you a `canvas_*.json` file which needs to be imported using
 3. Save the changes, and start script with `npm run extend` command
 
 ## Recommendations
-**This utility is under development**, we recommend specifying in `.env` the first 4 values ​​only divisible by 2
+If you use a center position, we recommend specifying the first 4 values divisible by only 2 in `.env`
 
 ## `.env` form
 You can see example in the `.env` file
@@ -20,6 +20,9 @@ You can see example in the `.env` file
 `POSITION` - position of the old canvas on the new one (see below)  
 `CLR` - fill color for new areas (you can specify RANDOM for a random color)  
 `PIXELS_FILE` - path to the file with the old canvas  
+`BENCHMARK` - benchmark status (`TRUE` or `FALSE`)  
+`ALGORITHM` - algorithm by which the extension works (see below)  
+`SAVE_TO` - path to the directory where the canvases will be saved  
 
 ## Positions
 **1** - top left  
@@ -27,3 +30,6 @@ You can see example in the `.env` file
 **3** - bottom left  
 **4** - bottom right  
 **5** - center  
+
+## Algorithms
+**0** - a slow algorithm that works by constructing an array through brute force and finding it in an already existing canvas  
