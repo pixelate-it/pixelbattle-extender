@@ -11,16 +11,16 @@ The script will give you a `canvas_*.json` file which needs to be imported using
 If you use a center position, we recommend specifying the first 4 values divisible by only 2 in `.env`
 
 ## `.env` form
-You can see example in the `.env` file
+You can see example in the `.env.expamle` file
 
 `NEW_CANVAS_X` - desired size **x** coordinates  
 `NEW_CANVAS_Y` - desired size **y** coordinates  
 `OLD_CANVAS_X` - old size **x** coordinates  
 `OLD_CANVAS_Y` - old size **y** coordinates  
 `POSITION` - position of the old canvas on the new one (see below)  
-`CLR` - fill color for new areas (you can specify RANDOM for a random color)  
+`CLR` - fill color for new areas (you can specify **RANDOM** for a random color)  
 `PIXELS_FILE` - path to the file with the old canvas  
-`BENCHMARK` - benchmark status (`TRUE` or `FALSE`)  
+`BENCHMARK` - benchmark status (**TRUE** or **FALSE**)  
 `ALGORITHM` - algorithm by which the extension works (see below)  
 `SAVE_TO` - path to the directory where the canvases will be saved  
 
