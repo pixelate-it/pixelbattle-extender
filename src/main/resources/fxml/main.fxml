@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="400.0" stylesheets="@../css/index.css" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.pixelbattle.extender.javafx.MainController">
+   <children>
+      <Button fx:id="startBtn" layoutX="10.0" layoutY="486.0" mnemonicParsing="false" onAction="#onStart" prefHeight="34.0" prefWidth="120.0" text="Start" />
+      <ProgressBar fx:id="progressBar" layoutX="10.0" layoutY="445.0" prefHeight="26.0" prefWidth="380.0" progress="0.0" />
+      <Text fx:id="progressText" fill="#dbdbdb" layoutX="328.0" layoutY="442.0" strokeType="OUTSIDE" strokeWidth="0.0" text="0%" textAlignment="RIGHT" wrappingWidth="62.1337890625">
+         <font>
+            <Font name="Arial Black" size="16.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="155.0" layoutX="10.0" layoutY="153.0" stroke="#585858" strokeType="INSIDE" strokeWidth="2.0" width="380.0" />
+      <Text fill="#dbdbdb" layoutX="155.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="General Info" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="initialCanvas" fill="#dbdbdb" layoutX="21.0" layoutY="199.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Output canvas sizes:" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="selectedFile" fill="#dbdbdb" layoutX="21.0" layoutY="176.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Initial canvas sizes:" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="58.0" layoutX="9.0" layoutY="364.0" stroke="#585858" strokeType="INSIDE" strokeWidth="2.0" width="381.0" />
+      <Text fill="#dbdbdb" layoutX="30.0" layoutY="101.0" strokeType="OUTSIDE" strokeWidth="0.0" text="For extending canvases with high performance" textAlignment="CENTER">
+         <font>
+            <Font name="Comic Sans MS Bold" size="15.0" />
+         </font>
+      </Text>
+      <ImageView fitHeight="70.0" fitWidth="200.0" layoutX="95.0" layoutY="9.0">
+         <image>
+            <Image url="@../images/logotype.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="270.0" layoutY="486.0" mnemonicParsing="false" onAction="#onOpenFolder" prefHeight="34.0" prefWidth="120.0" text="Open folder" />
+      <Button fx:id="stopBtn" disable="true" layoutX="140.0" layoutY="486.0" mnemonicParsing="false" onAction="#onStop" prefHeight="34.0" prefWidth="120.0" text="Stop" />
+      <Text fx:id="parsingStatus" fill="#dbdbdb" layoutX="20.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1. Parsing: None" textAlignment="CENTER" textOrigin="TOP">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="extendingStatus" fill="#dbdbdb" layoutX="20.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="2. Extending: None" textAlignment="CENTER" textOrigin="TOP">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="totalStatus" fill="#dbdbdb" layoutX="219.0" layoutY="395.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Total: None" textAlignment="CENTER" textOrigin="TOP">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="integrityStatus" fill="#dbdbdb" layoutX="200.0" layoutY="375.0" strokeType="OUTSIDE" strokeWidth="0.0" text="3. Integrity: None" textAlignment="CENTER" textOrigin="TOP">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Button layoutX="10.0" layoutY="320.0" mnemonicParsing="false" onAction="#onLoad" prefHeight="34.0" prefWidth="120.0" text="Load" />
+      <Button layoutX="140.0" layoutY="320.0" mnemonicParsing="false" onAction="#onSave" prefHeight="34.0" prefWidth="120.0" text="Save" />
+      <Button fx:id="selectBtn" layoutX="270.0" layoutY="320.0" mnemonicParsing="false" onAction="#onSelectCanvas" prefHeight="34.0" prefWidth="120.0" text="Select canvas" />
+      <Text fx:id="initialCanvas1" fill="#dbdbdb" layoutX="21.0" layoutY="223.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Chunk length in pixels: " textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="initialCanvas11" fill="#dbdbdb" layoutX="21.0" layoutY="247.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Old canvas position: " textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="initialCanvas111" fill="#dbdbdb" layoutX="21.0" layoutY="271.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Empty pixels fill color (HEX only):" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fx:id="canvasStatus" fill="#dbdbdb" layoutX="21.0" layoutY="295.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Canvas file is not loaded!" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <Text fill="#dbdbdb" layoutX="72.0" layoutY="123.0" opacity="0.88" strokeType="OUTSIDE" strokeWidth="0.0" text="by EtherCD &amp; Pixelate It Team" textAlignment="CENTER">
+         <font>
+            <Font name="Comic Sans MS Bold" size="15.0" />
+         </font>
+      </Text>
+      <TextField fx:id="initialCanvasX" layoutX="192.0" layoutY="158.0" minHeight="2.0" prefHeight="23.0" prefWidth="87.0" text="1000">
+         <font>
+            <Font name="Comic Sans MS" size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="initialCanvasY" layoutX="298.0" layoutY="158.0" minHeight="18.0" prefHeight="23.0" prefWidth="87.0" text="1000">
+         <font>
+            <Font name="Comic Sans MS" size="13.0" />
+         </font>
+      </TextField>
+      <Text fx:id="selectedFile1" fill="#dbdbdb" layoutX="284.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <TextField fx:id="outputCanvasX" layoutX="192.0" layoutY="182.0" minHeight="2.0" prefHeight="23.0" prefWidth="87.0" text="1000">
+         <font>
+            <Font name="Comic Sans MS" size="13.0" />
+         </font>
+      </TextField>
+      <TextField fx:id="outputCanvasY" layoutX="298.0" layoutY="182.0" minHeight="18.0" prefHeight="23.0" prefWidth="87.0" text="1000">
+         <font>
+            <Font name="Comic Sans MS" size="13.0" />
+         </font>
+      </TextField>
+      <Text fx:id="selectedFile11" fill="#dbdbdb" layoutX="284.0" layoutY="196.0" strokeType="OUTSIDE" strokeWidth="0.0" text="x" textAlignment="CENTER">
+         <font>
+            <Font name="Arial Black" size="13.0" />
+         </font>
+      </Text>
+      <TextField fx:id="chunkLength" layoutX="286.0" layoutY="206.0" minHeight="2.0" prefHeight="22.0" prefWidth="99.0" text="1000000">
+         <font>
+            <Font name="Comic Sans MS" size="13.0" />
+         </font>
+      </TextField>
+      <MenuButton fx:id="canvasPosition" alignment="CENTER" contentDisplay="CENTER" layoutX="269.0" layoutY="229.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="116.0" text="Canvas Position" textAlignment="CENTER">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Left Top" />
+          <MenuItem mnemonicParsing="false" text="Right Top" />
+            <MenuItem mnemonicParsing="false" text="Left Bottom" />
+            <MenuItem mnemonicParsing="false" text="Right Bottom" />
+            <MenuItem mnemonicParsing="false" text="Center" />
+        </items>
+      </MenuButton>
+      <TextField fx:id="fillColor" layoutX="311.0" layoutY="256.0" minHeight="2.0" prefHeight="22.0" prefWidth="74.0" text="#FFFFFF">
+         <font>
+            <Font name="Comic Sans MS" size="13.0" />
+         </font>
+      </TextField>
+   </children>
+</AnchorPane>

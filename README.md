@@ -1,35 +1,24 @@
-# Pixel Battle canvas extender
-It is this script that extend (or creates) the canvas for Pixel Battle  
-The script will give you a `canvas_*.json` file which needs to be imported using [MongoDB Compass](https://www.mongodb.com/products/tools/compass)
+<div align="center">
 
-## Usage
-1. Install dependencies with `npm i`
-2. Fill out `.env` using the instructions below
-3. Save the changes, and start script with `npm run extend` command
+<h1> Pixel Battle canvas extender </h1>
 
-## Recommendations
-If you use a center position, we recommend specifying the first 4 values divisible by only 2 in `.env`
+<img src="/docs/images/screenshot.png" alt="Total 2751.01 seconds for this version"/>
 
-## `.env` form
-You can see example in the `.env.expamle` file
+<b>Utility for extending canvas dumped on json</b>
 
-`NEW_CANVAS_X` - desired size **x** coordinates  
-`NEW_CANVAS_Y` - desired size **y** coordinates  
-`OLD_CANVAS_X` - old size **x** coordinates  
-`OLD_CANVAS_Y` - old size **y** coordinates  
-`POSITION` - position of the old canvas on the new one (see below)  
-`CLR` - fill color for new areas (you can specify **RANDOM** for a random color)  
-`PIXELS_FILE` - path to the file with the old canvas  
-`BENCHMARK` - benchmark status (**TRUE** or **FALSE**)  
-`ALGORITHM` - algorithm by which the extension works (see below)  
-`SAVE_TO` - path to the directory where the canvases will be saved  
+</div>
 
-## Positions
-**1** - top left  
-**2** - top right  
-**3** - bottom left  
-**4** - bottom right  
-**5** - center  
+## How to use
 
-## Algorithms
-**0** - a slow algorithm that works by constructing an array through brute force and finding it in an already existing canvas  
+For extend canvas from old:
+
+1. Dump `pixelbattle/pixels` collection from mongodb, with selected to JSON
+2. In program select canvas file.
+3. Enter all required information in "General Info"
+4. And don't forgot click "Save"
+5. Press "Start", and enjoy high performance
+
+For creating new canvas:
+
+1. Create `empty.json` file, with text `[]`
+2. And select in program. Continue following the previous instructions

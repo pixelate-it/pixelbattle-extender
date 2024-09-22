@@ -1,0 +1,48 @@
+plugins {
+    id 'eclipse'
+    id 'idea'
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.1.0'
+    id 'org.beryx.jlink' version '2.23.6'
+}
+
+mainClassName = 'com.pixelbattle.extender.Main'
+
+repositories {
+    jcenter()
+    google()
+    mavenCentral()
+}
+
+application {
+    mainClassName("com.pixelbattle.extender.Main")
+}
+
+javafx {
+    version = "18.0.1"
+    modules = [ 'javafx.base', 'javafx.controls', 'javafx.fxml' ]
+}
+
+dependencies {
+    implementation("com.google.code.gson:gson:2.11.0")
+    implementation("com.fasterxml.jackson.core:jackson-core:2.8.9")
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.8.9")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-javafx:1.6.0")
+}
+
+jar {
+    manifest {
+        attributes(
+                'Main-Class': 'com.pixelbattle.extender.Main'
+        )
+    }
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+    from sourceSets.main.output
+
+    dependsOn configurations.runtimeClasspath
+    from {
+        configurations.runtimeClasspath.filter { it.name.endsWith('jar') }.collect { zipTree(it) }
+    }
+}
