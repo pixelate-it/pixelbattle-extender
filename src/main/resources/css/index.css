@@ -1,0 +1,81 @@
+.root {
+     -fx-background-color: #0F0F0F;
+}
+
+.text {
+    -fx-fill: #808287;
+    -fx-text-fill: #808287;
+}
+
+.button {
+    -fx-border-color: #585858;
+    -fx-border-radius: 3px;
+    -fx-font-family: "Arial Black";
+    -fx-font-weight: bold;
+    -fx-background-color: linear-gradient(#2C2C2C 0%, #4A4A4A 47%, #2F2F2F 48%, #353535 100%);
+}
+
+.button .text {
+    -fx-fill: #FFFFFF;
+}
+
+.progress-bar {
+    -fx-background-color: linear-gradient(#2C2C2C 0%, #4A4A4A 47%, #2F2F2F 48%, #353535 100%);
+    -fx-progress-color: linear-gradient(#2C2C2C 0%, #4A4A4A 47%, #2F2F2F 48%, #353535 100%);
+}
+
+.progress-bar .bar {
+    -fx-background-color: linear-gradient(#2C2C2C 0%, #4A4A4A 47%, #2F2F2F 48%, #353535 100%);
+}
+
+
+.progress-bar:indeterminate .bar {
+    -fx-background-color: linear-gradient(#2C2C2C 0%, #4A4A4A 47%, #2F2F2F 48%, #353535 100%);
+}
+
+.progress-bar .track {
+    -fx-background-color: linear-gradient(#121212 0%, #303030 47%, #151515 48%, #1B1B1B 100%);
+}
+
+.red {
+    -fx-fill: #ff0000;
+    -fx-fill-text: #ff0000;
+}
+
+.green {
+    -fx-fill: #00ff00;
+    -fx-fill-text: #00ff00;
+}
+
+.text-field {
+    -fx-background-color: linear-gradient(#121212 0%, #303030 47%, #151515 48%, #1B1B1B 100%);
+    -fx-border-color: #585858;
+    -fx-border-radius: 3px;
+    -fx-text-fill: #fff;
+}
+
+.menu-button {
+    -fx-background-color: linear-gradient(#121212 0%, #303030 47%, #151515 48%, #1B1B1B 100%);
+    -fx-border-color: #585858;
+    -fx-border-radius: 3px;
+    -fx-text-fill: #fff;
+}
+
+.menu-item {
+    -fx-background-color: #121212;
+}
+
+.menu-item .text {
+    -fx-fill: #fff;
+    -fx-font-family: "Comics Sans NF";
+}
+
+.menu-item:focused {
+    -fx-background-color: #4a4a4a;
+}
+
+.context-menu {
+    -fx-background-color: #121212;
+    -fx-border-radius: 10px;
+    -fx-border-color: #585858;
+}
