@@ -3,9 +3,7 @@ package com.pixelbattle.extender.javafx;
 import com.pixelbattle.extender.General;
 import com.pixelbattle.extender.MessageLauncher;
 import com.pixelbattle.extender.events.ProcessEventBus;
-import com.pixelbattle.extender.logic.CanvasVerifier;
-import com.pixelbattle.extender.util.Config;
-import com.pixelbattle.extender.util.ExceptionToShow;
+import com.pixelbattle.extender.util.RuntimeProperties;
 import com.pixelbattle.extender.util.TransformType;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -25,10 +23,6 @@ public class MainController {
     public ProgressBar progressBar;
     @FXML
     public Text progressText;
-    @FXML
-    public TextField initialCanvasX;
-    @FXML
-    public TextField initialCanvasY;
     @FXML
     public TextField outputCanvasX;
     @FXML
@@ -52,9 +46,15 @@ public class MainController {
     @FXML
     public Button startBtn;
     @FXML
-    public Button stopBtn;
-    @FXML
     public Button selectBtn;
+    @FXML
+    public Button outPreviewBtn;
+    @FXML
+    public Button inputPreviewBtn;
+    @FXML
+    public CheckBox colorsAsNumber;
+    @FXML
+    public CheckBox generateTagTable;
 
     public ProcessEventBus processBus = new ProcessEventBus();
 
@@ -64,38 +64,32 @@ public class MainController {
     public void onStart() {
         try {
             this.clear();
+            this.syncRuntimeProperties();
             startBtn.setDisable(true);
-            stopBtn.setDisable(false);
-            loadToConfig();
 
             future = CompletableFuture.runAsync(() -> {
-                General.normalProcess(processBus);
+                try {
+                    General.normalProcess(processBus);
+                } catch (Exception e) {
+                    startBtn.setDisable(false);
+                    outPreviewBtn.setDisable(true);
+                    processBus.setParsingStatus("I Error");
+                    System.out.println(e.getMessage());
+                }
                 startBtn.setDisable(false);
-                stopBtn.setDisable(true);
+                outPreviewBtn.setDisable(false);
             });
-        } catch (NumberFormatException | ExceptionToShow e) {
+        } catch (NumberFormatException e) {
             if (e instanceof NumberFormatException)
                 MessageLauncher.launch("Config error: Int fields must be int values.");
-            if (e instanceof ExceptionToShow)
-                MessageLauncher.launch(((ExceptionToShow) e).getMessage());
             startBtn.setDisable(false);
-            stopBtn.setDisable(true);
         }
     }
 
     @FXML
-    public void onStop() {
-//        if (future != null && !(future.isCancelled() || future.isDone())) {
-//            future.cancel(true);
-//            startBtn.setDisable(false);
-//            stopBtn.setDisable(true);
-//        }
-    }
-
-    @FXML
-    public void onOpenFolder() {
+    public void openFolder() {
         if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-            File folder = new File(Config.instance.saveTo);
+            File folder = new File(RuntimeProperties.saveTo);
             try {
                 Desktop.getDesktop().open(folder);
             } catch (Exception e) {
@@ -107,34 +101,36 @@ public class MainController {
     }
 
     @FXML
-    public void onLoad() {
-        General.loadConfig();
-        this.processConfig();
-    }
-
-    @FXML
-    public void onSave() {
-        try {
-            loadToConfig();
-            General.saveConfig();
-            MessageLauncher.launch("Config saved successfully!");
-        } catch (NumberFormatException | ExceptionToShow e) {
-            if (e instanceof NumberFormatException)
-                MessageLauncher.launch("Int fields must be int values.");
-            else
-                MessageLauncher.launch(((ExceptionToShow) e).getMessage());
-        }
-    }
-
-    @FXML
-    public void onSelectCanvas() {
+    public void openSelectCanvas() {
         selectBtn.setDisable(true);
         CompletableFuture.runAsync(() -> {
             General.runSelectCanvas();
-            this.processConfig();
-            General.saveConfig();
+            if (!RuntimeProperties.canvasFileName.isEmpty()) {
+                inputPreviewBtn.setDisable(false);
+                startBtn.setDisable(false);
+                RuntimeProperties.canvasEmpty = false;
+                canvasStatus.setText("Canvas " +  RuntimeProperties.canvasFileName + " used.");
+            }
             selectBtn.setDisable(false);
         });
+    }
+
+    @FXML
+    public void openInputPreview() {
+
+    }
+
+    @FXML
+    public void openOutPreview() {
+
+    }
+
+    @FXML
+    public void useEmptyCanvas() {
+        canvasStatus.setText("Used empty canvas");
+        RuntimeProperties.canvasEmpty = true;
+        inputPreviewBtn.setDisable(false);
+        startBtn.setDisable(false);
     }
 
     public void initialize(){
@@ -144,53 +140,33 @@ public class MainController {
         processBus.setParsingStatus(parsingStatus);
         processBus.setExtendingStatus(extendingStatus);
         processBus.setTotalStatus(totalStatus);
-        processConfig();
+
+        inputPreviewBtn.setDisable(true);
+        outPreviewBtn.setDisable(true);
+        startBtn.setDisable(true);
 
         canvasPosition.getItems().clear();
         for (TransformType t : TransformType.values()) {
             MenuItem item = new MenuItem(t.name);
             item.setOnAction((ActionEvent actionEvent) -> {
-                Config.instance.positioning = t.id;
+                RuntimeProperties.positioning = t.id;
                 canvasPosition.setText(t.name);
             });
             canvasPosition.getItems().add(item);
         }
     }
 
-    public void loadToConfig() throws NumberFormatException, ExceptionToShow {
-        if (!CanvasVerifier.isValidColor(fillColor.getText())) {
-            throw new ExceptionToShow("Fill color must be HEX with 6 digits");
-        }
-        Config.instance.initialCanvasWidth = Integer.parseInt(initialCanvasX.getText());
-        Config.instance.initialCanvasHeight = Integer.parseInt(initialCanvasY.getText());
-        Config.instance.outputCanvasWidth = Integer.parseInt(outputCanvasX.getText());
-        Config.instance.outputCanvasHeight = Integer.parseInt(outputCanvasY.getText());
-        Config.instance.chunkLength = Integer.parseInt(chunkLength.getText());
-        Config.instance.fillColor = fillColor.getText();
-        General.updateNumberOfChunks();
-    }
-
     public void clear() {
         processBus.clear();
+
     }
 
-    public void processConfig() {
-        long size = General.getWeightOfOutputCanvas();
-
-        initialCanvasX.setText(""+Config.instance.initialCanvasWidth);
-        initialCanvasY.setText(""+Config.instance.initialCanvasHeight);
-        outputCanvasX.setText(""+Config.instance.outputCanvasWidth);
-        outputCanvasY.setText(""+Config.instance.outputCanvasHeight);
-        chunkLength.setText(""+Config.instance.chunkLength);
-        fillColor.setText(Config.instance.fillColor);
-        if (size == 0)
-            canvasStatus.setText("Canvas file is not loaded");
-        else
-            canvasStatus.setText("Canvas file is loaded "+ new File(Config.instance.canvasFileName).getName());
-
-        for (TransformType t : TransformType.values()) {
-            if (t.id == Config.instance.positioning)
-                canvasPosition.setText(t.name);
-        }
+    private void syncRuntimeProperties() {
+        RuntimeProperties.outputCanvasWidth = Integer.parseInt(outputCanvasX.getText());
+        RuntimeProperties.outputCanvasHeight = Integer.parseInt(outputCanvasY.getText());
+        RuntimeProperties.chunkLength = Integer.parseInt(chunkLength.getText());
+        RuntimeProperties.fillColor = fillColor.getText();
+        RuntimeProperties.colorsAsNumber = colorsAsNumber.isSelected();
+        RuntimeProperties.generateTagTable = generateTagTable.isSelected();
     }
 }

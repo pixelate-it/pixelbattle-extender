@@ -3,8 +3,9 @@ package com.pixelbattle.extender.logic;
 import com.pixelbattle.extender.events.ProcessEventBus;
 import com.pixelbattle.extender.objects.Canvas;
 import com.pixelbattle.extender.objects.Chunk;
+import com.pixelbattle.extender.objects.Color;
 import com.pixelbattle.extender.objects.Pixel;
-import com.pixelbattle.extender.util.Config;
+import com.pixelbattle.extender.util.RuntimeProperties;
 import com.pixelbattle.extender.util.ExtendingError;
 
 import java.io.BufferedWriter;
@@ -12,14 +13,14 @@ import java.io.IOException;
 
 public class CanvasExtender {
     public static void process(Canvas initialCanvas, BufferedWriter writer, ProcessEventBus event) throws ExtendingError, IOException {
-        int width = Config.instance.outputCanvasWidth;
-        int height = Config.instance.outputCanvasHeight;
+        int width = RuntimeProperties.outputCanvasWidth;
+        int height = RuntimeProperties.outputCanvasHeight;
 
         long startTime = System.currentTimeMillis();
 
         event.setChunksCount(0);
 
-        Chunk bufferChunk = new Chunk(Config.instance.chunkLength);
+        Chunk bufferChunk = new Chunk(RuntimeProperties.chunkLength);
 
         event.setExtendingStatus("Started");
 
@@ -29,7 +30,7 @@ public class CanvasExtender {
                 if (initialCanvas.isPixelInside(x, y)) {
                     Pixel oldPixel = initialCanvas.getPixel(x, y);
                     pixel = new Pixel((long) x, (long) y, oldPixel.author, oldPixel.tag, oldPixel.color);
-                } else pixel = new Pixel((long) x, (long) y, null, null, Config.instance.fillColor);
+                } else pixel = new Pixel((long) x, (long) y, null, null, new Color(RuntimeProperties.fillColor));
 
                 if (!bufferChunk.add(pixel)) {
                     FileManager.writeChunk(bufferChunk, writer, event.chunksCount);

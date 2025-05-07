@@ -50,22 +50,34 @@ public class CanvasVerifier {
 
                 switch (fieldName) {
                     case "x":
-                        if (!JsonToken.VALUE_NUMBER_INT.equals(token)) return false;
+                        if (!JsonToken.VALUE_NUMBER_INT.equals(token)) {
+                            System.out.println("X");
+                            return false;
+                        }
                         break;
                     case "y":
-                        if (!JsonToken.VALUE_NUMBER_INT.equals(token)) return false;
-                        y = parser.getIntValue();
+                        if (!JsonToken.VALUE_NUMBER_INT.equals(token)) {
+                            System.out.println("Y");
+                            return false;
+                        }
                         break;
                     case "author":
-                        if (!JsonToken.VALUE_NULL.equals(token) && !JsonToken.VALUE_STRING.equals(token)) return false;
-                        author = parser.getText();
+                        if (!JsonToken.VALUE_NULL.equals(token) && !JsonToken.VALUE_STRING.equals(token)) {
+                            System.out.println("author");
+                            return false;
+                        }
                         break;
                     case "tag":
-                        if (!JsonToken.VALUE_NULL.equals(token) && !JsonToken.VALUE_STRING.equals(token)) return false;
-                        tag = parser.getText();
+                        if (!JsonToken.VALUE_NULL.equals(token) && !JsonToken.VALUE_STRING.equals(token)) {
+                            System.out.println("tag");
+                            return false;
+                        }
                         break;
                     case "color":
-                        if (!JsonToken.VALUE_STRING.equals(token)) return false;
+                        if (!JsonToken.VALUE_STRING.equals(token))  {
+                            System.out.println("color");
+                            return false;
+                        }
                         color = parser.getText();
                         if (!isValidColor(color)) return false;
                         break;

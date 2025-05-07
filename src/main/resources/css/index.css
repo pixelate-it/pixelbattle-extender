@@ -15,6 +15,19 @@
     -fx-background-color: linear-gradient(#2C2C2C 0%, #4A4A4A 47%, #2F2F2F 48%, #353535 100%);
 }
 
+.check-box .text {
+    -fx-font-family: "Arial Black";
+    -fx-font-weight: bold;
+    -fx-fill: #808287;
+    -fx-text-fill: #808287;
+}
+
+.check-box .box {
+    -fx-border-color: #585858;
+    -fx-border-radius: 3px;
+    -fx-background-color: linear-gradient(#2C2C2C 0%, #4A4A4A 47%, #2F2F2F 48%, #353535 100%);
+}
+
 .button .text {
     -fx-fill: #FFFFFF;
 }

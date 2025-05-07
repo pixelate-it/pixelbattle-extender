@@ -1,13 +1,15 @@
 package com.pixelbattle.extender.objects;
 
+import com.pixelbattle.extender.util.RuntimeProperties;
+
 public class Pixel {
     public Long x;
     public Long y;
     public String author;
     public String tag;
-    public String color;
+    public Color color;
 
-    public Pixel(Long x, Long y, String author, String tag, String color) {
+    public Pixel(Long x, Long y, String author, String tag, Color color) {
         this.x = x;
         this.y = y;
         this.tag = tag;
@@ -19,6 +21,6 @@ public class Pixel {
         return "{\"x\":" + this.x + ",\"y\":" + this.y +
                 ",\"author\":" + (this.author == null ? "null" : "\"" + this.author + "\"") +
                 ",\"tag\":" + (this.tag == null ? "null" : "\"" + this.tag + "\"") +
-                ",\"color\":" + (this.color == null ? "null" : "\"" + this.color + "\"") + "}";
+                ",\"color\":" + (this.color == null ? "null" : this.color) + "}";
     }
 }

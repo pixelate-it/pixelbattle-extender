@@ -9,15 +9,15 @@ public class Transform {
         this.y = y;
     }
 
-    public static Transform fromIntToTransform(int positioning) {
+    public static Transform fromIntToTransform(int positioning, int width, int height) {
         return switch (positioning) {
             default -> null;
-            case 1 -> new Transform(Config.instance.outputCanvasWidth - Config.instance.initialCanvasWidth, 0);
-            case 2 -> new Transform(0, Config.instance.outputCanvasHeight - Config.instance.initialCanvasHeight );
+            case 1 -> new Transform(RuntimeProperties.outputCanvasWidth - width, 0);
+            case 2 -> new Transform(0, RuntimeProperties.outputCanvasHeight - height );
             case 3 ->
-                    new Transform(Config.instance.outputCanvasWidth - Config.instance.initialCanvasWidth, Config.instance.outputCanvasHeight - Config.instance.initialCanvasHeight);
+                    new Transform(RuntimeProperties.outputCanvasWidth - width, RuntimeProperties.outputCanvasHeight - height);
             case 4 ->
-                    new Transform((int) Math.floor((double) (Config.instance.outputCanvasWidth - Config.instance.initialCanvasWidth) / 2), (int) Math.floor((double) (Config.instance.outputCanvasHeight - Config.instance.initialCanvasHeight) / 2));
+                    new Transform((int) Math.floor((double) (RuntimeProperties.outputCanvasWidth - width) / 2), (int) Math.floor((double) (RuntimeProperties.outputCanvasHeight - height) / 2));
         };
     }
 }

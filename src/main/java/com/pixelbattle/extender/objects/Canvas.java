@@ -35,6 +35,8 @@ public class Canvas {
     }
 
     public void setPixels(List<Pixel> pixels) {
+        System.out.println(pixels.size());
+        System.out.println(this.pixels.length);
         for (int i = 0; i < pixels.size(); i++)
             this.pixels[i] = pixels.get(i);
     }
@@ -44,6 +46,11 @@ public class Canvas {
             return x >= transform.x && y >= transform.y && x < transform.x + this.width && y < transform.y + this.height;
         return false;
     }
+
+    public Pixel[] getPixels() {
+        return this.pixels;
+    }
+
 
     public void applyTransform(Transform transform) {
         this.transform = transform;
