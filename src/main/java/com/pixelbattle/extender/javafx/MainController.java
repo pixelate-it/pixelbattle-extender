@@ -1,172 +1,177 @@
 package com.pixelbattle.extender.javafx;
 
-import com.pixelbattle.extender.General;
-import com.pixelbattle.extender.MessageLauncher;
-import com.pixelbattle.extender.events.ProcessEventBus;
-import com.pixelbattle.extender.util.RuntimeProperties;
-import com.pixelbattle.extender.util.TransformType;
-import javafx.event.ActionEvent;
+import com.pixelbattle.extender.GeneralProcesses;
+import com.pixelbattle.extender.launchers.MessageLauncher;
+import com.pixelbattle.extender.primitives.Color;
+import com.pixelbattle.extender.primitives.Size;
+import com.pixelbattle.extender.runtime.RuntimeProperties;
+import com.pixelbattle.extender.runtime.Type;
+import javafx.application.Platform;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 
-import java.awt.*;
-import java.io.File;
+import java.nio.file.Paths;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.Future;
 
 public class MainController {
-    @FXML
-    public ProgressBar progressBar;
-    @FXML
-    public Text progressText;
-    @FXML
-    public TextField outputCanvasX;
-    @FXML
-    public TextField outputCanvasY;
-    @FXML
-    public TextField chunkLength;
-    @FXML
-    public MenuButton canvasPosition;
-    @FXML
-    public TextField fillColor;
-    @FXML
-    public Text parsingStatus;
-    @FXML
-    public Text extendingStatus;
-    @FXML
-    public Text integrityStatus;
-    @FXML
-    public Text totalStatus;
-    @FXML
-    public Text canvasStatus;
-    @FXML
-    public Button startBtn;
-    @FXML
-    public Button selectBtn;
-    @FXML
-    public Button outPreviewBtn;
-    @FXML
-    public Button inputPreviewBtn;
-    @FXML
-    public CheckBox colorsAsNumber;
-    @FXML
-    public CheckBox generateTagTable;
+    // Global
 
-    public ProcessEventBus processBus = new ProcessEventBus();
+    @FXML TextField IWidth;
+    @FXML TextField IHeight;
+    @FXML Slider MemoryUsage;
+    @FXML Button SelectCanvas;
+    @FXML Button Start;
+    @FXML Text Status;
+    @FXML TabPane TabPane;
 
-    public Future<?> future;
+    Type.Page currentPage = Type.Page.EXTEND;
 
-    @FXML
-    public void onStart() {
-        try {
-            this.clear();
-            this.syncRuntimeProperties();
-            startBtn.setDisable(true);
+    private String filePath;
 
-            future = CompletableFuture.runAsync(() -> {
-                try {
-                    General.normalProcess(processBus);
-                } catch (Exception e) {
-                    startBtn.setDisable(false);
-                    outPreviewBtn.setDisable(true);
-                    processBus.setParsingStatus("I Error");
-                    System.out.println(e.getMessage());
-                }
-                startBtn.setDisable(false);
-                outPreviewBtn.setDisable(false);
-            });
-        } catch (NumberFormatException e) {
-            if (e instanceof NumberFormatException)
-                MessageLauncher.launch("Config error: Int fields must be int values.");
-            startBtn.setDisable(false);
-        }
-    }
-
-    @FXML
-    public void openFolder() {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-            File folder = new File(RuntimeProperties.saveTo);
-            try {
-                Desktop.getDesktop().open(folder);
-            } catch (Exception e) {
-                MessageLauncher.launch("Error with opening explorer utility, for display folder");
-            }
-        } else {
-            MessageLauncher.launch("Your os is not support this thing");
-        }
-    }
-
-    @FXML
-    public void openSelectCanvas() {
-        selectBtn.setDisable(true);
+    @FXML void SelectCanvasClick() {
+        Start.setDisable(true);
+        SelectCanvas.setDisable(true);
         CompletableFuture.runAsync(() -> {
-            General.runSelectCanvas();
-            if (!RuntimeProperties.canvasFileName.isEmpty()) {
-                inputPreviewBtn.setDisable(false);
-                startBtn.setDisable(false);
-                RuntimeProperties.canvasEmpty = false;
-                canvasStatus.setText("Canvas " +  RuntimeProperties.canvasFileName + " used.");
-            }
-            selectBtn.setDisable(false);
+            filePath = GeneralProcesses.runSelectCanvas();
+            if (filePath != null)
+                Status.setText("Canvas " + Paths.get(filePath).getFileName() + " selected.");
+            Start.setDisable(false);
+            SelectCanvas.setDisable(false);
         });
     }
 
-    @FXML
-    public void openInputPreview() {
+    @FXML void StartClick() {
+        try {
+            if (filePath == null && currentPage != Type.Page.EMPTY) return;
 
-    }
-
-    @FXML
-    public void openOutPreview() {
-
-    }
-
-    @FXML
-    public void useEmptyCanvas() {
-        canvasStatus.setText("Used empty canvas");
-        RuntimeProperties.canvasEmpty = true;
-        inputPreviewBtn.setDisable(false);
-        startBtn.setDisable(false);
-    }
-
-    public void initialize(){
-        processBus.setProgressBar(progressBar);
-        processBus.setProgressText(progressText);
-        processBus.setIntegrityStatus(integrityStatus);
-        processBus.setParsingStatus(parsingStatus);
-        processBus.setExtendingStatus(extendingStatus);
-        processBus.setTotalStatus(totalStatus);
-
-        inputPreviewBtn.setDisable(true);
-        outPreviewBtn.setDisable(true);
-        startBtn.setDisable(true);
-
-        canvasPosition.getItems().clear();
-        for (TransformType t : TransformType.values()) {
-            MenuItem item = new MenuItem(t.name);
-            item.setOnAction((ActionEvent actionEvent) -> {
-                RuntimeProperties.positioning = t.id;
-                canvasPosition.setText(t.name);
+            RuntimeProperties.CHUNK_LENGTH = (int) (50000 * (MemoryUsage.getValue() / 102));
+            RuntimeProperties.OLD_SIZE = new Size(Integer.parseInt(IWidth.getText()), Integer.parseInt(IHeight.getText()));
+            RuntimeProperties.EXTEND_SIZE = new Size(Integer.parseInt(ExtendOWidth.getText()), Integer.parseInt(ExtendOHeight.getText()));
+            RuntimeProperties.BASIC_FILL_COLOR = new Color(ExtendFillColor.getText());
+            Status.setText("In process");
+            SelectCanvas.setDisable(true);
+            Start.setDisable(true);
+            CompletableFuture.runAsync(() -> {
+                try {
+                    String a = "";
+                    switch (currentPage) {
+                        case Type.Page.EXTEND ->
+                            a = GeneralProcesses.extend(filePath);
+                        case Type.Page.TAGS ->
+                            a = GeneralProcesses.tags(filePath, tagType);
+                        case Type.Page.IMAGE ->
+                            a = GeneralProcesses.image(filePath, imageType);
+                        case Type.Page.EMPTY -> {
+                            RuntimeProperties.BASIC_FILL_COLOR = new Color(EmptyCanvasFill.getText());
+                            a = GeneralProcesses.empty();
+                        }
+                    }
+                    Status.setText("Success! File " + a);
+                } catch (Exception e) {
+                    System.out.println(e.toString());
+                    Status.setText("Failed");
+                    Platform.runLater(() -> MessageLauncher.run(e.toString()));
+                }
+                Start.setDisable(false);
+                SelectCanvas.setDisable(false);
             });
-            canvasPosition.getItems().add(item);
+        } catch (Exception e) {
+            System.out.println(e.toString());
+            MessageLauncher.run(e.toString());
         }
     }
 
-    public void clear() {
-        processBus.clear();
-
+    @FXML void SelectionChanged(Event event) {
+        Tab tab = (Tab) event.getSource();
+        if (tab != null) {
+            for (Type.Page page : Type.Page.values()) {
+                if (tab.getText().equals(page.tabName)) {
+                    currentPage = page;
+                    return;
+                }
+            }
+        }
     }
 
-    private void syncRuntimeProperties() {
-        RuntimeProperties.outputCanvasWidth = Integer.parseInt(outputCanvasX.getText());
-        RuntimeProperties.outputCanvasHeight = Integer.parseInt(outputCanvasY.getText());
-        RuntimeProperties.chunkLength = Integer.parseInt(chunkLength.getText());
-        RuntimeProperties.fillColor = fillColor.getText();
-        RuntimeProperties.colorsAsNumber = colorsAsNumber.isSelected();
-        RuntimeProperties.generateTagTable = generateTagTable.isSelected();
+    void initializeGlobal() {
+    }
+
+    // Global End
+
+    // Extend tab
+
+    @FXML TextField ExtendFillColor;
+    @FXML MenuButton ExtendCanvasPosition;
+    @FXML TextField ExtendOWidth;
+    @FXML TextField ExtendOHeight;
+
+    void initExtendTab() {
+        ExtendCanvasPosition.getItems().clear();
+        for (Type.CanvasPosition t : Type.CanvasPosition.values()) {
+            MenuItem item = new MenuItem(t.name);
+            item.setOnAction((ActionEvent) -> {
+                RuntimeProperties.POSITION = t;
+                ExtendCanvasPosition.setText(t.name);
+            });
+            ExtendCanvasPosition.getItems().add(item);
+        }
+    }
+
+    // Extend tab end
+
+    // Image tab
+
+    @FXML MenuButton ImageType;
+
+    private Type.Image imageType = Type.Image.PNG;
+
+    void initImageTab() {
+        ImageType.getItems().clear();
+        for (Type.Image t : Type.Image.values()) {
+            MenuItem item = new MenuItem(t.name);
+            item.setOnAction((ActionEvent) -> {
+                imageType = t;
+                ImageType.setText(t.name);
+            });
+            ImageType.getItems().add(item);
+        }
+    }
+
+    // Image tab end
+
+    // Tags tab
+
+    @FXML MenuButton TagType;
+
+    private Type.Tags tagType = Type.Tags.JSON;
+
+    void initTagsTab() {
+        TagType.getItems().clear();
+        for (Type.Tags t : Type.Tags.values()) {
+            MenuItem item = new MenuItem(t.name);
+            item.setOnAction((ActionEvent) -> {
+                tagType = t;
+                TagType.setText(t.name);
+            });
+            TagType.getItems().add(item);
+        }
+    }
+
+    // Tags end
+
+    // Empty Create
+
+    @FXML TextField EmptyCanvasFill;
+
+    // Empty end
+
+    @FXML
+    void initialize() {
+        this.initExtendTab();
+        this.initializeGlobal();
+        this.initImageTab();
+        this.initTagsTab();
     }
 }

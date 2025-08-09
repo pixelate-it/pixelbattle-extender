@@ -1,12 +1,12 @@
 package com.pixelbattle.extender.javafx;
 
 import javafx.fxml.FXML;
-import javafx.scene.text.Text;
+import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
 
 public class MessageController {
     @FXML
-    public Text messageText;
+    TextArea Container;
 
     private final String message;
 
@@ -14,13 +14,13 @@ public class MessageController {
         this.message = message;
     }
 
-    @FXML
-    public void onOk() {
-        Stage stage = (Stage) messageText.getScene().getWindow();
+    @FXML void onOk() {
+        Stage stage = (Stage) Container.getScene().getWindow();
         stage.close();
     }
 
-    public void initialize() {
-        this.messageText.setText(this.message);
+    @FXML
+    void initialize() {
+        Container.setText(message);
     }
 }

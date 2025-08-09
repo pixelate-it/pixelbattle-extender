@@ -1,7 +1,9 @@
 package com.pixelbattle.extender;
-public class Main {
 
+import com.pixelbattle.extender.launchers.MainLauncher;
+
+public class Main {
     public static void main(String[] args) {
-        Launcher.main(args);
+        MainLauncher.main(args);
     }
 }
